@@ -188,3 +188,37 @@ test("dark transaction form remains accessible without changing its financial wo
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
 });
+
+test("mobile overview tables support keyboard scrolling in light and dark themes", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  for (const name of ["Ultimi movimenti", "Prossime scadenze"]) {
+    const region = page.getByRole("region", { name, exact: true });
+    await expect(region.getByRole("table")).toBeVisible();
+    expect(
+      await region.evaluate((node) => node.scrollWidth > node.clientWidth),
+    ).toBe(true);
+    await region.focus();
+    await expect(region).toBeFocused();
+    expect(
+      await region.evaluate((node) => getComputedStyle(node).outlineStyle),
+    ).not.toBe("none");
+    const before = await region.evaluate((node) => node.scrollLeft);
+    await page.keyboard.press("ArrowRight");
+    await expect
+      .poll(() => region.evaluate((node) => node.scrollLeft))
+      .toBeGreaterThan(before);
+  }
+
+  await accessible(page);
+  await page
+    .getByRole("button", { name: "Attiva tema scuro", exact: true })
+    .click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await accessible(page);
+});

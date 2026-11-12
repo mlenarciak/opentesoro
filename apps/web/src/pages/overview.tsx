@@ -273,7 +273,13 @@ export default function Overview() {
           }
         >
           {latest.length ? (
-            <Table>
+            <Table
+              containerProps={{
+                role: "region",
+                "aria-label": "Ultimi movimenti",
+                tabIndex: 0,
+              }}
+            >
               <TableHeader>
                 <TableRow>
                   <TableHead>Operazione</TableHead>
@@ -334,7 +340,13 @@ export default function Overview() {
           }
         >
           {due.length ? (
-            <Table>
+            <Table
+              containerProps={{
+                role: "region",
+                "aria-label": "Prossime scadenze",
+                tabIndex: 0,
+              }}
+            >
               <TableHeader>
                 <TableRow>
                   <TableHead>Controparte</TableHead>
