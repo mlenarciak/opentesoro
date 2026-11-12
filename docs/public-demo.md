@@ -1,5 +1,7 @@
 # Prova OpenTesoro
 
+**[Apri la demo online](https://d1y5vmh8a5ngxz.cloudfront.net)**.
+
 La demo pubblica permette di provare la tesoreria senza creare un account. Ogni visitatore riceve una copia separata degli stessi dati inventati. Le schede aperte nello stesso browser condividono quella copia.
 
 ## Una prima prova, in cinque minuti
@@ -22,7 +24,7 @@ Se il servizio è momentaneamente occupato, attendi e scegli **Riprova connessio
 
 ## Accessibilità e aspetto
 
-Usa il pulsante del tema per passare da chiaro a scuro. La preferenza resta nel browser. La navigazione funziona da tastiera; il menu su telefono si chiude con **Esc** e restituisce il focus al pulsante di apertura. Il collegamento **Vai al contenuto** permette di saltare la navigazione ripetuta. I segnali di incasso, pagamento e attenzione mantengono i loro colori e le loro etichette.
+Usa il pulsante del tema per passare da chiaro a scuro. La preferenza resta nel browser. La navigazione funziona da tastiera; il menu su telefono si chiude con **Esc** e restituisce il focus al pulsante di apertura. Il collegamento **Vai al contenuto** permette di saltare la navigazione ripetuta. Su telefono, le tabelle **Ultimi movimenti** e **Prossime scadenze** si possono raggiungere con Tab e scorrere con le frecce destra e sinistra. I segnali di incasso, pagamento e attenzione mantengono i loro colori e le loro etichette.
 
 Le verifiche automatiche includono i criteri WCAG A e AA coperti da axe su viste desktop, mobile e moduli. Non sostituiscono una valutazione completa con tecnologie assistive.
 

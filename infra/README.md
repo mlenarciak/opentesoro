@@ -4,6 +4,16 @@ This stack publishes a **synthetic, per-visitor demo**. It does not host a compa
 
 The read-only review on 12 November 2026 found no resources matching OpenTesoro in the DLT account's Milan CloudFormation, ECS clusters/services, ECR, Lambda, ALB, HTTP APIs or tagged EC2 instances, or in global S3, CloudFront and Route 53 listings. The chosen deployment creates its own VPC and app resources in account `509581811464`, Region `eu-south-1`, through profile `dlt`. It does not reuse the existing DLT network or change OpenFatture.
 
+## Published deployment — 12 November 2026
+
+The public demo is available at **https://d1y5vmh8a5ngxz.cloudfront.net**. Stack `OpenTesoro-prod-Demo` reached `UPDATE_COMPLETE` at **18:37:37 UTC**. CloudFront distribution `EHMJMP8QRFWM` is deployed, ECS has one running task and no pending tasks, and the ALB target is healthy.
+
+The deployed app source is revision [`8600c3d`](https://github.com/mlenarciak/opentesoro/commit/8600c3d1af9324a3f390dd9b952cfebe3800259a). Its reviewed image asset is `d8dd77ccb597cbdcb70086f444437da2c93c97eebd629489a3cfc1907f346323`; ECS runs digest `sha256:8381495424a013e2ed8af3af74e73555199c26a998d8c8d540ab6d6a3caabd7c`. The deployment used a frozen CDK assembly and normal CloudFormation changesets. The final update changed only the image and its task definition.
+
+Live verification confirmed no public ingress rules, an internal ALB accessible only from CloudFront's managed security group, task ingress only from the ALB, and no attached or inline policies on the application task role. The running task is non-root with a read-only root filesystem, no secrets and no persistent volumes. The final HTTPS browser workflows passed create/reload, separate-visitor isolation, JSON export, explicit reset and stale-tab recovery. HTTP checks passed CSRF/origin enforcement, uncached authorization errors, JSON API errors, SPA deep links and the reviewed security headers. The final live desktop/mobile overview passed axe in both light and dark themes with zero violations; named table regions scroll with the arrow keys, theme choice persists and the mobile menu restores keyboard focus. No browser console errors were observed. See the [verification ledger](../docs/verification.md) for local and CI coverage.
+
+`opentesoro.com` was unavailable from Route 53 Domains and was not listed among DLT's registered domains or pending registration operations. No alternative domain was purchased. Selecting an available domain or confirming ownership of the existing `.com` is still needed for a custom address.
+
 ## Architecture
 
 CloudFront supplies a public HTTPS URL immediately; a custom domain is optional. A **VPC origin** connects it to an internal Application Load Balancer in isolated subnets. The ALB sends requests to one Bun Fargate task on port 3000. Its security group accepts only the ALB; the ALB accepts only CloudFront's service-managed VPC-origin security group. There is no public load-balancer endpoint, public application port, EFS, NAT gateway or persistent financial volume.

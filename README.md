@@ -4,6 +4,8 @@
 
 Bun · SQLite · React · TanStack Router & Query · shadcn/ui · Recharts · MIT
 
+**[Open the public demo](https://d1y5vmh8a5ngxz.cloudfront.net)** — no registration; separate, temporary workspaces containing fictional data.
+
 OpenTesoro turns bank movements, customer deposits, final balances and supplier commitments into an explainable liquidity plan. It is an original implementation informed by Agicap's public documentation and authorized read-only product observations. It is not affiliated with Agicap.
 
 **Status: working first milestone, not complete Agicap parity.** The cash-flow engine, persistent API, Italian application, import pipeline, SDK and read-only Agicap API client are implemented. Live bank feeds, payment execution, user management and accounting compliance integrations remain roadmap items. See the [feature matrix](docs/research/parity-matrix.md).
