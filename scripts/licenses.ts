@@ -94,7 +94,10 @@ for (const p of ordered) {
 }
 await Bun.write(
   join(root, "THIRD_PARTY_NOTICES.md"),
-  text.replaceAll("\r\n", "\n").replace(/[ \t]+$/gm, "").trimEnd() + "\n",
+  text
+    .replaceAll("\r\n", "\n")
+    .replace(/[ \t]+$/gm, "")
+    .trimEnd() + "\n",
 );
 console.log(
   `Wrote notices for shadcn/ui and ${ordered.length} installed locked packages.`,
