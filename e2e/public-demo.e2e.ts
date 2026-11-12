@@ -172,5 +172,25 @@ test("invalid sessions require an explicit restart and another tab reset require
     }),
   ).toBeVisible();
   await accessible(page);
+  // A reset from this stale tab must offer reload, without resetting the new
+  // generation created in the other tab.
+  await tab
+    .getByRole("button", { name: "Ripristina demo", exact: true })
+    .click();
+  await expect(
+    tab.getByRole("heading", {
+      name: "Ogni decisione parte dalla chiarezza.",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Ripristina demo", exact: true })
+    .click();
+  await expect(
+    page.getByText("La demo è cambiata in un’altra scheda", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Ricarica workspace", exact: true }),
+  ).toBeVisible();
   await tab.close();
 });
