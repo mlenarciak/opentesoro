@@ -2,7 +2,23 @@
 
 Recorded on **2026-11-12**, OpenTesoro **0.1.0**, Bun **1.3.13**, Linux x64. All business fixtures are synthetic. These checks establish a tested first milestone, not full Agicap parity or production certification.
 
-## Executed release checks
+## Blue interface and public demo update
+
+The following checks supersede the earlier app/test counts for this update. Older backup and connector results below remain historical evidence; those checks were not repeated because their implementations did not change.
+
+| Check                        | Result                               | Scope                                                                                                                                                                                            |
+| ---------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `bun run check`              | **160 tests, 662 assertions passed** | Strict TypeScript; existing financial, API, persistence and SDK checks; 13 public-session server tests and 7 browser-client state tests; frontend and both server launchers build                |
+| Browser workflows            | **13 scenarios passed**              | Eight existing workflows, three blue-theme/accessibility workflows and two public-demo workflows                                                                                                 |
+| Theme and accessibility      | Passed                               | Light/dark persistence, square corners, financial colors, desktop/mobile axe checks, keyboard focus, Escape and no page overflow                                                                 |
+| Public session boundaries    | Passed                               | Independent visitors, CSRF/origin enforcement, expiry/reset, stale tabs, request/storage/creation limits and refusal of private/provider configuration                                           |
+| Production demo container    | Passed                               | Actual Docker build; non-root process, read-only root filesystem, 0.5 CPU/1 GiB limits; both public browser workflows repeated through the container; persistent database configuration rejected |
+| CloudFront CSP compatibility | Passed locally                       | Actual built container page exercised with the exact reviewed CSP; no browser console errors                                                                                                     |
+| Infrastructure               | Passed                               | Strict TypeScript, 4 CDK assertions, strict synth, source allowlist/private-file exclusions and review of a new standalone stack                                                                 |
+
+The demo container used about 78 MiB after these browser checks. This is one observed value, not a concurrency or capacity guarantee. The AWS deployment record is maintained in the [infrastructure runbook](../infra/README.md).
+
+## Initial milestone checks
 
 | Check                                                                    | Result                                             | Scope                                                                                                                                                |
 | ------------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -61,4 +77,4 @@ These are in-process fixture measurements. They exclude HTTP socket/TLS/WAN late
 
 ## Explicitly unverified or planned
 
-Real bank feeds; PSD2/EBICS/SWIFT connectivity; payment execution and signing; production email/OCR; SSO, per-person RBAC and tenant isolation; statutory Italian tax/e-invoicing/accounting correctness; production backup RPO/RTO; sustained concurrent load; independent security assurance; container runtime; live authenticated Agicap Public API operations. See [roadmap](roadmap.md) and [feature matrix](research/parity-matrix.md).
+Real bank feeds; PSD2/EBICS/SWIFT connectivity; payment execution and signing; production email/OCR; SSO, per-person RBAC and business-tenant isolation; statutory Italian tax/e-invoicing/accounting correctness; production backup RPO/RTO; sustained concurrent load; independent security assurance; private persistent-container runtime; live authenticated Agicap Public API operations. Per-visitor synthetic demo isolation and its container were tested as recorded above. See [roadmap](roadmap.md) and [feature matrix](research/parity-matrix.md).

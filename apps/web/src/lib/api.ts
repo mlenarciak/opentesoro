@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { publicDemoClient } from "./public-demo";
 
 import {
   formatMoney,
@@ -49,15 +50,20 @@ export class ApiError extends Error {
   }
 }
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const token = sessionStorage.getItem("opentesoro-token");
+  const demo = publicDemoClient.getSnapshot();
+  if (demo.status !== "ready") throw new ApiError(demo.status === "expired" ? "Sessione demo terminata. Avvia una nuova demo." : demo.status === "changed" ? "La demo è cambiata in un’altra scheda. Ricarica la pagina." : "Connessione al workspace non disponibile.", demo.status === "expired" ? 410 : demo.status === "changed" ? 409 : 503);
+  const token = demo.mode === "private" ? sessionStorage.getItem("opentesoro-token") : null;
+  const headers = new Headers(init?.headers);
+  headers.set("Content-Type", "application/json");
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  if (demo.mode === "public") headers.delete("Authorization");
+  for (const [name, value] of Object.entries(publicDemoClient.requestHeaders())) headers.set(name, value);
   const response = await fetch(`/api/v1${path}`, {
     ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...init?.headers,
-    },
+    credentials: "same-origin",
+    headers,
   });
+  publicDemoClient.observe(response);
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new ApiError(
@@ -175,18 +181,26 @@ export function defaultForecastRange(
 }
 type AccountLike = { asOfDate: string; enabled: boolean };
 export async function downloadExport(format: "csv" | "json") {
-  const token = sessionStorage.getItem("opentesoro-token");
-  const res = await fetch(`/api/v1/export?format=${format}`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
-  if (!res.ok) {
-    toast.error("Esportazione non riuscita. Verifica il token di accesso.");
-    return;
+  const demo = publicDemoClient.getSnapshot();
+  if (demo.status !== "ready") { toast.error("Il workspace non è disponibile. Usa le istruzioni mostrate nella pagina."); return; }
+  try {
+    const token = demo.mode === "private" ? sessionStorage.getItem("opentesoro-token") : null;
+    const res = await fetch(`/api/v1/export?format=${format}`, {
+      credentials: "same-origin",
+      headers: { ...publicDemoClient.requestHeaders(), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    });
+    publicDemoClient.observe(res);
+    if (!res.ok) {
+      toast.error(demo.mode === "public" ? "Esportazione non riuscita. Verifica lo stato della sessione demo." : "Esportazione non riuscita. Verifica il token di accesso.");
+      return;
+    }
+    const url = URL.createObjectURL(await res.blob());
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `opentesoro-${format === "csv" ? "movimenti" : "workspace"}.${format}`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch {
+    toast.error("Esportazione non disponibile. Riprova la connessione.");
   }
-  const url = URL.createObjectURL(await res.blob());
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `opentesoro-${format === "csv" ? "movimenti" : "workspace"}.${format}`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

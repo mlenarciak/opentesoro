@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
@@ -44,6 +44,7 @@ import {
   SectionCard,
 } from "@/components/shared";
 import { api, downloadExport, useBootstrap, useWrite } from "@/lib/api";
+import { publicDemoClient } from "@/lib/public-demo";
 interface Preview {
   rows: {
     row: number;
@@ -69,6 +70,12 @@ interface Rule {
 const sample =
   "date;description;counterparty;amount;externalId\n2026-11-12;Acconto viaggio Sicilia;Cliente dimostrativo;1250,00;demo-import-001\n2026-11-12;Saldo allotment hotel;Hotel dimostrativo;-850,50;demo-import-002";
 export default function Integrations() {
+  const publicDemo =
+    useSyncExternalStore(
+      publicDemoClient.subscribe,
+      publicDemoClient.getSnapshot,
+      publicDemoClient.getSnapshot,
+    ).mode === "public";
   const bootstrap = useBootstrap();
   const [csv, setCsv] = useState("");
   const [preview, setPreview] = useState<Preview | null>(null);
@@ -121,15 +128,17 @@ export default function Integrations() {
     return (
       <>
         <ErrorState error={bootstrap.error} retry={() => bootstrap.refetch()} />
-        <TokenForm
-          token={token}
-          setToken={setToken}
-          onSave={() => {
-            sessionStorage.setItem("opentesoro-token", token);
-            client.invalidateQueries();
-            toast.success("Token impostato per questa sessione");
-          }}
-        />
+        {!publicDemo && (
+          <TokenForm
+            token={token}
+            setToken={setToken}
+            onSave={() => {
+              sessionStorage.setItem("opentesoro-token", token);
+              client.invalidateQueries();
+              toast.success("Token impostato per questa sessione");
+            }}
+          />
+        )}
       </>
     );
   const data = bootstrap.data;
@@ -457,16 +466,18 @@ export default function Integrations() {
           </p>
         )}
       </SectionCard>
-      <TokenForm
-        token={token}
-        setToken={setToken}
-        onSave={() => {
-          if (token) sessionStorage.setItem("opentesoro-token", token);
-          else sessionStorage.removeItem("opentesoro-token");
-          client.invalidateQueries();
-          toast.success("Credenziali di sessione aggiornate");
-        }}
-      />
+      {!publicDemo && (
+        <TokenForm
+          token={token}
+          setToken={setToken}
+          onSave={() => {
+            if (token) sessionStorage.setItem("opentesoro-token", token);
+            else sessionStorage.removeItem("opentesoro-token");
+            client.invalidateQueries();
+            toast.success("Credenziali di sessione aggiornate");
+          }}
+        />
+      )}
       <Dialog open={ruleOpen} onOpenChange={setRuleOpen}>
         <DialogContent>
           <DialogHeader>

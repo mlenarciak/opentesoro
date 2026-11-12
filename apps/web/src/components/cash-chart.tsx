@@ -74,8 +74,12 @@ export function CashChart({
                 year: "numeric",
               })
             }
+            labelStyle={{ color: "var(--popover-foreground)" }}
+            itemStyle={{ color: "var(--popover-foreground)" }}
             contentStyle={{
-              borderRadius: 8,
+              borderRadius: 0,
+              backgroundColor: "var(--popover)",
+              color: "var(--popover-foreground)",
               border: "1px solid var(--border)",
               fontSize: 12,
             }}

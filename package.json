@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "bun scripts/dev.ts",
     "start": "bun apps/server/src/index.ts",
-    "build": "bun run --cwd apps/web build && bun build apps/server/src/index.ts --target=bun --outdir=dist/server",
+    "build": "bun run --cwd apps/web build && bun build apps/server/src/index.ts apps/server/src/public-demo-index.ts --target=bun --outdir=dist/server",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
     "check": "bun run typecheck && bun test && bun run build",
@@ -25,9 +25,16 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "verify:backup": "bun scripts/verify-backup.ts",
-    "licenses:generate": "bun scripts/licenses.ts"
+    "licenses:generate": "bun scripts/licenses.ts",
+    "start:public-demo": "bun apps/server/src/public-demo-index.ts",
+    "infra:typecheck": "bun run --cwd infra typecheck",
+    "infra:test": "bun run --cwd infra test",
+    "infra:synth": "bun run --cwd infra synth",
+    "infra:diff": "bun run --cwd infra diff",
+    "infra:deploy": "bun run --cwd infra deploy"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "^1.58.2",
     "@types/bun": "latest",
     "prettier": "3.6.2",

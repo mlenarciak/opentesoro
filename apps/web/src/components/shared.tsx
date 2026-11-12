@@ -253,7 +253,7 @@ export function SectionCard({
   return (
     <Card className={cn("gap-5 shadow-none", className)}>
       <CardHeader className="flex flex-row items-start justify-between gap-3">
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
           <CardTitle className="text-base">{title}</CardTitle>
           {description && <CardDescription>{description}</CardDescription>}
         </div>

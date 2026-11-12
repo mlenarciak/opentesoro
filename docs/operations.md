@@ -1,6 +1,6 @@
 # Run and operate OpenTesoro
 
-The initial deployment is one Bun process, one local SQLite database and a built browser application. It is a single-organization installation. Running the demo is different from safely operating real financial data.
+The private installation is one Bun process, one local SQLite database and a built browser application. It serves a single organization. The separate [public demo](public-demo.md) gives visitors temporary, isolated synthetic workspaces without registration. Its [AWS stack](../infra/README.md) does not persist company data. The instructions below describe the private installation unless stated otherwise.
 
 ## Local demo
 

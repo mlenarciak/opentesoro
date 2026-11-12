@@ -8,6 +8,8 @@ OpenTesoro turns bank movements, customer deposits, final balances and supplier 
 
 **Status: working first milestone, not complete Agicap parity.** The cash-flow engine, persistent API, Italian application, import pipeline, SDK and read-only Agicap API client are implemented. Live bank feeds, payment execution, user management and accounting compliance integrations remain roadmap items. See the [feature matrix](docs/research/parity-matrix.md).
 
+The interface uses a blue shadcn theme, locally served Geist typography, square corners and a saved light/dark preference. The public demo opens without registration and gives each visitor a separate temporary workspace of fictional records. See the [demo guide](docs/public-demo.md) for limits and the difference from a company's persistent installation.
+
 ![OpenTesoro synthetic treasury dashboard](docs/assets/overview.png)
 
 ## Run in two commands
@@ -105,6 +107,8 @@ The running service publishes **[OpenAPI 3.1](http://127.0.0.1:3000/openapi.json
 | [Engine](packages/engine/README.md)                               | Financial invariants, snapshots, scenarios, recurrence and variance |
 | [Agicap connector](packages/agicap/README.md)                     | Official OAuth, read-only methods and integration limitations       |
 | [Operations](docs/operations.md)                                  | Configuration, authentication, backups and containers               |
+| [Public demo](docs/public-demo.md)                                | Try the app, reset examples, understand session limits              |
+| [AWS deployment](infra/README.md)                                 | Reviewed infrastructure, costs, domain setup and deployment         |
 | [Verification](docs/verification.md)                              | Executed checks and their limits                                    |
 | [Performance](docs/performance.md)                                | Reproducible benchmarks and scope                                   |
 | [Research](docs/research/research.md)                             | Product inventory and linked primary sources                        |
@@ -118,14 +122,14 @@ The current Agicap Public API uses organization-scoped OAuth credentials, not an
 
 By default, the server binds to loopback. Binding beyond loopback requires `OPENTESORO_API_TOKEN` of at least 24 characters. Generate one with `openssl rand -hex 32`; never commit it. Optional `OPENTESORO_READ_ONLY_TOKEN` must differ from the write token. Configure the browser's token in **Importa e integra → Accesso API del workspace**; it stays in that browser tab's session storage.
 
-This is a single-organization service. Entity filters are reporting perimeters, not tenant isolation. Place remote installations behind TLS and an appropriate access layer. See [operations](docs/operations.md).
+The private launcher is a single-organization service. Entity filters are reporting perimeters, not tenant isolation. Place remote installations behind TLS and an appropriate access layer. The separate public-demo launcher uses isolated, temporary visitor databases and refuses private tokens or persistent storage. It is for fictional examples only. See [operations](docs/operations.md).
 
 ```sh
 # .env: OPENTESORO_API_TOKEN=<a generated random token>
 docker compose up --build
 ```
 
-Docker is optional. It binds the host port to `127.0.0.1:3000` and persists SQLite in a named volume. The browser needs the configured token. A container recipe is provided; check the verification guide for whether it was exercised on this host.
+Docker is optional. The private Compose recipe binds the host port to `127.0.0.1:3000` and persists SQLite in a named volume. The browser needs the configured token. The AWS public demo uses the independently tested `Dockerfile.public-demo`; see the [verification guide](docs/verification.md) for the checks and their scope.
 
 ## Development
 

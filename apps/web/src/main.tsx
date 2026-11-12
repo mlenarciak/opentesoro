@@ -7,9 +7,11 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
 import { Layout } from "./components/layout";
 import { LoadingState, EmptyState } from "./components/shared";
 import "./styles.css";
+import { publicDemoClient } from "./lib/public-demo";
 const Overview = lazy(() => import("./pages/overview"));
 const Transactions = lazy(() => import("./pages/transactions"));
 const Forecast = lazy(() => import("./pages/forecast"));
@@ -52,10 +54,14 @@ const router = createRouter({ routeTree, defaultPreload: "intent" });
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
 });
+// Establish one demo session before parallel React Query requests start.
+await publicDemoClient.initialize();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <ThemeProvider attribute="class" storageKey="opentesoro.theme" defaultTheme="system" enableSystem disableTransitionOnChange>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>,
 );

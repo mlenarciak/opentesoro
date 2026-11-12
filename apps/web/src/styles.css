@@ -1,7 +1,17 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Geist Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-latin-wght-normal.woff2")
+    format("woff2");
+}
+
+@custom-variant dark (&:is(.dark *));
 @theme inline {
   --font-sans:
-    "Inter", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -29,40 +39,101 @@
   --color-negative: var(--negative);
   --color-positive-muted: var(--positive-muted);
   --color-warning: var(--warning);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-text-accent: var(--text-accent);
+  --radius-xs: var(--radius);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --radius-4xl: var(--radius);
 }
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.987 0 0);
-  --foreground: oklch(0.205 0 0);
+  --radius: 0;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.205 0 0);
+  --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.205 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.546 0.245 262.881);
+  --primary-foreground: oklch(0.97 0.014 254.604);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.51 0 0);
-  --accent: oklch(0.95 0 0);
+  --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.918 0 0);
-  --input: oklch(0.9 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.48 0.1 177);
-  --chart-2: oklch(0.74 0.08 165);
-  --chart-3: oklch(0.65 0.065 230);
-  --chart-4: oklch(0.72 0.12 70);
-  --chart-5: oklch(0.62 0.08 320);
+  --chart-1: oklch(0.546 0.245 262.881);
+  --chart-2: oklch(0.707 0.165 254.624);
+  --chart-3: oklch(0.488 0.243 264.376);
+  --chart-4: oklch(0.623 0.214 259.815);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.546 0.245 262.881);
+  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --text-accent: var(--primary);
+  /* Financial meaning stays separate from the blue product identity. */
   --positive: oklch(0.43 0.1 170);
   --negative: oklch(0.52 0.15 30);
   --positive-muted: oklch(0.96 0.02 170);
   --warning: oklch(0.54 0.12 70);
+}
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.488 0.243 264.376);
+  --primary-foreground: oklch(0.97 0.014 254.604);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.707 0.165 254.624);
+  --chart-2: oklch(0.809 0.105 251.813);
+  --chart-3: oklch(0.623 0.214 259.815);
+  --chart-4: oklch(0.882 0.059 254.128);
+  --chart-5: oklch(0.546 0.245 262.881);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.809 0.105 251.813);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+  --text-accent: var(--sidebar-primary);
+  --positive: oklch(0.75 0.13 165);
+  --negative: oklch(0.745 0.17 27.3);
+  --positive-muted: oklch(0.265 0.035 170);
+  --warning: oklch(0.82 0.12 70);
 }
 @layer base {
   * {
@@ -71,6 +142,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     margin: 0;
+    font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   button,
@@ -84,9 +156,54 @@
     cursor: pointer;
   }
   ::selection {
-    background: var(--positive-muted);
+    background: var(--primary);
+    color: var(--primary-foreground);
   }
 }
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+.skip-link {
+  position: fixed;
+  top: -5rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+/* Product shapes are square; circular data points remain chart geometry. */
+.rounded-full {
+  border-radius: 0;
+}
+.mobile-navigation[data-slot="dialog-content"] {
+  position: fixed;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: min(19rem, calc(100vw - 2rem));
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: 0;
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  transform: none;
+  translate: 0 0;
+  gap: 0;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
