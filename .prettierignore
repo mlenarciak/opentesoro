@@ -1,0 +1,11 @@
+node_modules
+**/dist
+dist
+bun.lock
+.data
+coverage
+test-results
+playwright-report
+docs/research/public-api-inventory.json
+THIRD_PARTY_NOTICES.md
+licenses/

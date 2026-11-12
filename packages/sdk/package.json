@@ -1,0 +1,10 @@
+{
+  "name": "@opentesoro/sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@opentesoro/engine": "workspace:*"
+  }
+}

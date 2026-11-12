@@ -1,0 +1,10 @@
+{
+  "name": "@opentesoro/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@opentesoro/engine": "workspace:*",
+    "zod": "^4.3.6"
+  }
+}

@@ -1,0 +1,13 @@
+services:
+  opentesoro:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      OPENTESORO_API_TOKEN: ${OPENTESORO_API_TOKEN:?Set a random token of at least 24 characters in .env}
+      OPENTESORO_DEMO: ${OPENTESORO_DEMO:-true}
+    volumes:
+      - treasury:/data
+    restart: unless-stopped
+volumes:
+  treasury:
